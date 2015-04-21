@@ -1,0 +1,48 @@
+{
+  "name": "bloc",
+  "version": "0.0.1",
+  "description": "Array filtering and aggregation with a MongoDB inspired syntax",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DavidTPate/bloc.git"
+  },
+  "keywords": [
+    "array",
+    "filter"
+  ],
+  "author": {
+    "name": "David Pate",
+    "email": "davidtpate@gmail.com",
+    "url": "https://github.com/DavidTPate"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/DavidTPate/bloc/issues"
+  },
+  "homepage": "https://github.com/DavidTPate/bloc",
+  "engines": {
+    "node": ">=0.10.30"
+  },
+  "scripts": {
+    "test": "lab -t 100 -a code -L",
+    "test-cov-html": "lab -r html -o coverage.html -a code",
+    "toc": "node generate-readme-toc.js"
+  },
+  "dependencies": {
+    "bluebird": "^2.9.24",
+    "hoek": "^2.x",
+    "joi": "^6.x",
+    "rx": "^2.5.2"
+  },
+  "devDependencies": {
+    "code": "^1.x",
+    "lab": "^5.x",
+    "markdown-toc": "^0.x"
+  }
+}
