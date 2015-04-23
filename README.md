@@ -14,6 +14,7 @@ Functional Reactive array filtering and aggregation with a MongoDB inspired synt
     - [$lte](#lte)
     - [$in](#in)
     - [$nin](#nin)
+  - [Evaluation Operators](#evaluation-operators)
     - [$mod](#mod)
     - [$regex](#regex)
     - [$where](#where)
@@ -180,6 +181,9 @@ Matches none of the values specified in an array.
   }
 }
 ```
+
+## Evaluation Operators
+Operators which do some sort of evaluation.
 
 ### $mod
 Performs a modulo operation on the value of a field and selects documents with a specified result.
