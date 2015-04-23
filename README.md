@@ -1,7 +1,35 @@
 # Bloc
 Functional Reactive array filtering and aggregation with a MongoDB inspired syntax.
 
-## General Usage
+<!-- toc -->
+
+  - [Usage](#usage)
+- [Query Selectors](#query-selectors)
+  - [Comparison Operators](#comparison-operators)
+    - [$eq](#eq)
+    - [$ne](#ne)
+    - [$gt](#gt)
+    - [$gte](#gte)
+    - [$lt](#lt)
+    - [$lte](#lte)
+    - [$in](#in)
+    - [$nin](#nin)
+    - [$mod](#mod)
+    - [$regex](#regex)
+    - [$where](#where)
+  - [Logical Operators](#logical-operators)
+    - [$or](#or)
+    - [$and](#and)
+    - [$not](#not)
+    - [$nor](#nor)
+  - [Array Operators](#array-operators)
+    - [$all](#all)
+    - [$elemMatch](#elemmatch)
+    - [$size](#size)
+
+<!-- tocstop -->
+
+## Usage
 For normal usage arrays are returned with the results.
 
 ```js
@@ -153,6 +181,42 @@ Matches none of the values specified in an array.
 }
 ```
 
+### $mod
+Performs a modulo operation on the value of a field and selects documents with a specified result.
+
+```js
+{
+  <field>: {
+    $mod: [
+      divisor,
+      remainder
+    ]
+  }
+}
+```
+
+### $regex
+Selects documents where values match a specified regular expression.
+
+```js
+{
+  <field>: {
+    $regex: <regular expression>
+  }
+}
+```
+
+### $where
+Matches documents that satisfy a JavaScript function.
+
+```js
+{
+  <field>: {
+    $where: <function>
+  }
+}
+```
+
 ## Logical Operators
 Used for grouping together filter clauses.
 
@@ -229,41 +293,8 @@ Joins query clauses with a logical **NOR** returns all documents that fail to ma
 }
 ```
 
-### $mod
-Performs a modulo operation on the value of a field and selects documents with a specified result.
-
-```js
-{
-  <field>: {
-    $mod: [
-      divisor,
-      remainder
-    ]
-  }
-}
-```
-
-### $regex
-Selects documents where values match a specified regular expression.
-
-```js
-{
-  <field>: {
-    $regex: <regular expression>
-  }
-}
-```
-
-### $where
-Matches documents that satisfy a JavaScript function.
-
-```js
-{
-  <field>: {
-    $where: <function>
-  }
-}
-```
+## Array Operators
+Operators to use when filtering arrays.
 
 ### $all
 Matches arrays that contain all elements specified in the query.
@@ -277,6 +308,33 @@ Matches arrays that contain all elements specified in the query.
       ...,
       <valueN>
     ]
+  }
+}
+```
+
+### $elemMatch
+Selects documents if element in the array field matches all the specified conditions.
+
+```js
+{
+  <field>: {
+    $elemMatch: {
+      <query1>,
+      <query2>,
+      ...,
+      <queryN>
+    }
+  }
+}
+```
+
+### $size
+Selects documents if the array field is a specified size.
+
+```js
+{
+  <field>: {
+    $size: <number>
   }
 }
 ```

@@ -1,7 +1,7 @@
 {
   "name": "bloc",
   "version": "0.0.1",
-  "description": "Array filtering and aggregation with a MongoDB inspired syntax",
+  "description": "Functional Reactive array filtering and aggregation with a MongoDB inspired syntax.",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -9,7 +9,11 @@
   },
   "keywords": [
     "array",
-    "filter"
+    "filter",
+    "functional reactive",
+    "aggregate",
+    "aggregation",
+    "group by"
   ],
   "author": {
     "name": "David Pate",
@@ -35,10 +39,10 @@
     "toc": "node generate-readme-toc.js"
   },
   "dependencies": {
-    "bluebird": "^2.9.24",
+    "bluebird": "^2.x",
     "hoek": "^2.x",
     "joi": "^6.x",
-    "rx": "^2.5.2"
+    "rx": "^2.x"
   },
   "devDependencies": {
     "code": "^1.x",

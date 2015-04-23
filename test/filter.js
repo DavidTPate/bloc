@@ -46,7 +46,7 @@ describe('filter()', function () {
             email: {
                 address: 'tony@stark.com'
             },
-            tags: ['billionaire', 'playboy', 'philanthropist', 'iron man'],
+            tags: ['billionaire', 'playboy', 'philanthropist'],
             hobbies: [
                 {
                     name: 'being-awesome'
@@ -71,7 +71,7 @@ describe('filter()', function () {
         }, function (reason) {
 
             expect(reason).to.be.instanceOf(Error);
-            expect(reason.message).to.equal('child "age" fails because ["value" must contain at least one of [$eq, $gt, $gte, $lt, $lte, $ne, $in, $nin, $exists, $type, $mod, $regex, $where, $all, $not]]');
+            expect(reason.message).to.equal('child "age" fails because ["value" must contain at least one of [$eq, $gt, $gte, $lt, $lte, $ne, $in, $nin, $exists, $type, $mod, $regex, $where, $all, $elemMatch, $size, $not]]');
             done();
         }).catch(done);
     });
@@ -480,6 +480,56 @@ describe('filter()', function () {
         });
     });
 
+    describe('$size', function () {
+
+        it('should be able to filter on multiple keys', function (done) {
+
+            Bloc.filter(testData, {
+                tags: {
+                    $size: 3
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done).catch(done);
+        });
+
+        it('should be able to filter on a value that doesn\'t exist', function (done) {
+
+            Bloc.filter(testData, {
+                asdf: {
+                    $size: 3
+                }
+            }).then(function (results) {
+
+                expect(results.length).to.equal(0);
+                done();
+            }, done).catch(done);
+        });
+    });
+
+    describe('$elemMatch', function () {
+
+        it('should be able to filter on multiple keys', function (done) {
+
+            Bloc.filter(testData, {
+                tags: {
+                    $elemMatch: [
+                        'billionaire',
+                        'playboy'
+                    ]
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done).catch(done);
+        });
+    });
+
     describe('$all', function () {
 
         it('should be able to filter on multiple keys', function (done) {
@@ -488,7 +538,8 @@ describe('filter()', function () {
                 tags: {
                     $all: [
                         'billionaire',
-                        'playboy'
+                        'playboy',
+                        'philanthropist'
                     ]
                 }
             }).then(function (results) {
@@ -894,8 +945,50 @@ describe('filter()', function () {
                         $not: {
                             $all: [
                                 'billionaire',
+                                'playboy',
+                                'philanthropist'
+                            ]
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[0]);
+                    expect(results.length).to.equal(1);
+                    done();
+                }, done).catch(done);
+            });
+        });
+
+        describe('$elemMatch', function () {
+
+            it('should be able to filter on multiple keys', function (done) {
+
+                Bloc.filter(testData, {
+                    tags: {
+                        $not: {
+                            $elemMatch: [
+                                'billionaire',
                                 'playboy'
                             ]
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[0]);
+                    expect(results.length).to.equal(1);
+                    done();
+                }, done).catch(done);
+            });
+        });
+
+        describe('$size', function () {
+
+            it('should be able to filter on multiple keys', function (done) {
+
+                Bloc.filter(testData, {
+                    tags: {
+                        $not: {
+                            $size: 3
                         }
                     }
                 }).then(function (results) {
