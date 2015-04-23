@@ -1,7 +1,9 @@
 # Bloc
-Array filtering and aggregation with a MongoDB inspired syntax.
+Functional Reactive array filtering and aggregation with a MongoDB inspired syntax.
 
-## Usage
+## General Usage
+For normal usage arrays are returned with the results.
+
 ```js
 var Bloc = require('bloc');
 var data = [
@@ -19,8 +21,38 @@ var filter = {
     $eq: 'us-east-1'
   }
 };
-Bloc.query(data, query).then(function(results) {
+
+Bloc.filter(data, filter).then(function(results) {
   // Results contains all items in the `us-east-1` region.
+}, function(reason) {
+ // Something went wrong
+});
+```
+
+If desired, a stream can be returned instead.
+
+```js
+var Bloc = require('bloc');
+var data = [
+  {
+    id: 1,
+    region: 'us-east-1'
+  },
+  {
+    id: 2,
+    region: 'us-west-1'
+  }
+];
+var filter = {
+  region: {
+    $eq: 'us-east-1'
+  }
+};
+
+Bloc.filter(data, filter, { stream: true }).then(function(stream) {
+  stream.subscribe(function(item) {
+    // Stream will eventually contain all items in the `us-east-1` region.
+  });
 }, function(reason) {
  // Something went wrong
 });
