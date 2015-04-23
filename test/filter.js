@@ -123,4 +123,23 @@ describe('filter()', function () {
             }, done);
         });
     });
+
+    describe('$not', function () {
+
+        it('should be able to filter on something being not equal', function (done) {
+
+            Bloc.filter(testData, {
+                age: {
+                    $not: {
+                        $eq: 42
+                    }
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done);
+        });
+    });
 });
