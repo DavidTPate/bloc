@@ -98,6 +98,127 @@ describe('filter()', function () {
         });
     });
 
+    describe('$in', function () {
+
+        it('should be able to filter on a top level key', function (done) {
+
+            Bloc.filter(testData, {
+                age: {
+                    $in: [34]
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done);
+        });
+    });
+
+    describe('$nin', function () {
+
+        it('should be able to filter on a top level key', function (done) {
+
+            Bloc.filter(testData, {
+                age: {
+                    $nin: [42]
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done);
+        });
+    });
+
+    describe('$ne', function () {
+
+        it('should be able to filter on a top level key', function (done) {
+
+            Bloc.filter(testData, {
+                age: {
+                    $ne: 42
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done);
+        });
+    });
+
+    describe('$gt', function () {
+
+        it('should be able to filter on a top level key', function (done) {
+
+            Bloc.filter(testData, {
+                age: {
+                    $gt: 34
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[0]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done);
+        });
+    });
+
+    describe('$gte', function () {
+
+        it('should be able to filter on a top level key', function (done) {
+
+            Bloc.filter(testData, {
+                age: {
+                    $gte: 34
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[0]);
+                expect(results[1]).to.equal(testData[1]);
+                expect(results.length).to.equal(2);
+                done();
+            }, done);
+        });
+    });
+
+    describe('$lt', function () {
+
+        it('should be able to filter on a top level key', function (done) {
+
+            Bloc.filter(testData, {
+                age: {
+                    $lt: 42
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done);
+        });
+    });
+
+    describe('$lte', function () {
+
+        it('should be able to filter on a top level key', function (done) {
+
+            Bloc.filter(testData, {
+                age: {
+                    $lte: 42
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[0]);
+                expect(results[1]).to.equal(testData[1]);
+                expect(results.length).to.equal(2);
+                done();
+            }, done);
+        });
+    });
+
     describe('$and', function () {
 
         it('should be able to filter on multiple keys', function (done) {
@@ -126,20 +247,158 @@ describe('filter()', function () {
 
     describe('$not', function () {
 
-        it('should be able to filter on something being not equal', function (done) {
+        describe('$eq', function () {
 
-            Bloc.filter(testData, {
-                age: {
-                    $not: {
-                        $eq: 42
+            it('should be able to filter on a top level key', function (done) {
+
+                Bloc.filter(testData, {
+                    age: {
+                        $not: {
+                            $eq: 42
+                        }
                     }
-                }
-            }).then(function (results) {
+                }).then(function (results) {
 
-                expect(results[0]).to.equal(testData[1]);
-                expect(results.length).to.equal(1);
-                done();
-            }, done);
+                    expect(results[0]).to.equal(testData[1]);
+                    expect(results.length).to.equal(1);
+                    done();
+                }, done);
+            });
+        });
+
+        describe('$in', function () {
+
+            it('should be able to filter on a top level key', function (done) {
+
+                Bloc.filter(testData, {
+                    age: {
+                        $not: {
+                            $in: [42]
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[1]);
+                    expect(results.length).to.equal(1);
+                    done();
+                }, done);
+            });
+        });
+
+        describe('$nin', function () {
+
+            it('should be able to filter on a top level key', function (done) {
+
+                Bloc.filter(testData, {
+                    age: {
+                        $not: {
+                            $nin: [34]
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[1]);
+                    expect(results.length).to.equal(1);
+                    done();
+                }, done);
+            });
+        });
+
+        describe('$ne', function () {
+
+            it('should be able to filter on a top level key', function (done) {
+
+                Bloc.filter(testData, {
+                    age: {
+                        $not: {
+                            $ne: 34
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[1]);
+                    expect(results.length).to.equal(1);
+                    done();
+                }, done);
+            });
+        });
+
+        describe('$gt', function () {
+
+            it('should be able to filter on a top level key', function (done) {
+
+                Bloc.filter(testData, {
+                    age: {
+                        $not: {
+                            $gt: 42
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[0]);
+                    expect(results[1]).to.equal(testData[1]);
+                    expect(results.length).to.equal(2);
+                    done();
+                }, done);
+            });
+        });
+
+        describe('$gte', function () {
+
+            it('should be able to filter on a top level key', function (done) {
+
+                Bloc.filter(testData, {
+                    age: {
+                        $not: {
+                            $gte: 42
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[1]);
+                    expect(results.length).to.equal(1);
+                    done();
+                }, done);
+            });
+        });
+
+        describe('$lt', function () {
+
+            it('should be able to filter on a top level key', function (done) {
+
+                Bloc.filter(testData, {
+                    age: {
+                        $not: {
+                            $lt: 34
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[0]);
+                    expect(results[1]).to.equal(testData[1]);
+                    expect(results.length).to.equal(2);
+                    done();
+                }, done);
+            });
+        });
+
+        describe('$lte', function () {
+
+            it('should be able to filter on a top level key', function (done) {
+
+                Bloc.filter(testData, {
+                    age: {
+                        $not: {
+                            $lte: 34
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[0]);
+                    expect(results.length).to.equal(1);
+                    done();
+                }, done);
+            });
         });
     });
 });
