@@ -14,11 +14,9 @@ var data = [
     region: 'us-west-1'
   }
 ];
-var query = {
-  $match: {
-    region: {
-      $eq: 'us-east-1'
-    }
+var filter = {
+  region: {
+    $eq: 'us-east-1'
   }
 };
 Bloc.query(data, query).then(function(results) {
@@ -28,209 +26,173 @@ Bloc.query(data, query).then(function(results) {
 });
 ```
 
-## Query Selectors
+# Query Selectors
 Below is a list of all the supported query selectors.
 
+## Comparison Operators
+Used for the comparison of different values for filters.
+
 ### $eq
-Matches values that are equal to a specified value.
+Matches all values that are equal to a specified value.
 
 ```js
-var query = {
-  $match: {
-    region: {
-      $eq: 'us-east-1'
-    }
+{
+  <field>: { 
+    $eq: <value>
   }
-};
+}
 ```
 
 ### $ne
 Matches all values that are not equal to a specified value.
 
+
 ```js
-var query = {
-  $match: {
-    id: {
-      $ne: 1
-    }
+{
+  <field>: { 
+    $ne: <value>
   }
-};
+}
 ```
 
 ### $gt
 Matches values that are greater than a specified value.
 
 ```js
-var query = {
-  $match: {
-    id: {
-      $gt: 1
-    }
+{
+  <field>: { 
+    $gt: <value>
   }
-};
+}
 ```
 
 ### $gte
 Matches values that are greater than or equal to a specified value.
 
 ```js
-var query = {
-  $match: {
-    id: {
-      $gte: 1
-    }
+{
+  <field>: { 
+    $gte: <value>
   }
-};
+}
 ```
 
 ### $lt
 Matches values that are less than a specified value.
 
 ```js
-var query = {
-  $match: {
-    id: {
-      $lt: 2
-    }
+{
+  <field>: { 
+    $lt: <value>
   }
-};
+}
 ```
 
 ### $lte
 Matches values that are less than or equal to a specified value.
 
 ```js
-var query = {
-  $match: {
-    id: {
-      $lte: 2
-    }
+{
+  <field>: { 
+    $lte: <value>
   }
-};
+}
 ```
 
 ### $in
 Matches any of the values specified in an array.
 
 ```js
-var query = {
-  $match: {
-    id: {
-      $in: [1, 2]
-    }
+{
+  <field>: { 
+    $in: [ <value1>, <value2>, ... <valueN> ]
   }
-};
+}
 ```
 
 ### $nin
 Matches none of the values specified in an array.
 
 ```js
-var query = {
-  $match: {
-    id: {
-      $nin: [1, 2]
-    }
+{
+  <field>: { 
+    $nin: [ <value1>, <value2>, ... <valueN> ]
   }
-};
+}
 ```
 
 ## Logical Operators
-Below is a list of all of the supported logical operators.
+Used for grouping together filter clauses.
 
 ### $or
 Joins query clauses with a logical **OR** returns all documents that match the conditions of either clause.
 
 ```js
-var query = {
-  $match: {
-    $or: [
-      {
-        id: {
-          $eq: 1
-        }
-      },
-      {
-        region: {
-          $eq: 'us-east-1'
-        }
-      }
-    ]
-  }
-};
+{ 
+  $or: [
+    {
+      <expression1>
+    },
+    {
+      <expression2>
+    },
+    ...,
+    {
+      <expressionN>
+    }
+  ]
+}
 ```
 
 ### $and
 Joins query clauses with a logical **AND** returns all documents that match the conditions of both clauses.
 
 ```js
-var query = {
-  $match: {
-    $and: [
-      {
-        id: {
-          $eq: 1
-        }
-      },
-      {
-        region: {
-          $eq: 'us-east-1'
-        }
-      }
-    ]
-  }
-};
+{ 
+  $and: [
+    {
+      <expression1>
+    },
+    {
+      <expression2>
+    },
+    ...,
+    {
+      <expressionN>
+    }
+  ]
+}
 ```
 
 ### $not
-_Syntax_: `{ field: { $not: { <operator-expression> } } }`
-
-**$not** performs a logical **NOT** operation on the specified <operator-expression> and selects 
-the documents that do not match the <operator-expression>. This includes documents that 
-do not contain the field.
+Inverts the effect of a query expression and returns documents that do not match the query expression.
 
 ```js
-var query = {
-  $match: {
+{
+  <field>: {
     $not: {
-      id: {
-        $eq: 1
-      }
+      <operator>: <value>
     }
   }
-};
+}
 ```
 
 ### $nor
-_Syntax_: `{ $nor: [ { <expression1> }, { <expression2> }, ...  { <expressionN> } ] }`
-
-**$nor** performs a logical **NOR** operation on an array of one or more query expression and 
-selects the documents that **fail** all the query expressions in the array.
+Joins query clauses with a logical **NOR** returns all documents that fail to match both clauses.
 
 ```js
-var query = {
-  $match: {
-    $nor: [
-      {
-        id: {
-          $eq: 1
-        }
-      },
-      {
-        region: {
-          $eq: 'us-east-1'
-        }
-      }
-    ]
-  }
-};
+{ 
+  $nor: [
+    {
+      <expression1>
+    },
+    {
+      <expression2>
+    },
+    ...,
+    {
+      <expressionN>
+    }
+  ]
+}
 ```
-
-## Element Selectors
-
-### $exists
-_Syntax_: `{ field: { $exists: <boolean> } }`
-
-When **<boolean>** is true, **$exists** matches the documents that contain the field, including 
-documents where the field value is **null**. If **<boolean>** is false, the query returns only 
-the documents that do not contain the field.
