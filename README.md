@@ -196,3 +196,55 @@ Joins query clauses with a logical **NOR** returns all documents that fail to ma
   ]
 }
 ```
+
+### $mod
+Performs a modulo operation on the value of a field and selects documents with a specified result.
+
+```js
+{
+  <field>: {
+    $mod: [
+      divisor,
+      remainder
+    ]
+  }
+}
+```
+
+### $regex
+Selects documents where values match a specified regular expression.
+
+```js
+{
+  <field>: {
+    $regex: <regular expression>
+  }
+}
+```
+
+### $where
+Matches documents that satisfy a JavaScript function.
+
+```js
+{
+  <field>: {
+    $where: <function>
+  }
+}
+```
+
+### $all
+Matches arrays that contain all elements specified in the query.
+
+```js
+{
+  <field>: {
+    $all: [
+      <value1>,
+      <value2>,
+      ...,
+      <valueN>
+    ]
+  }
+}
+```

@@ -71,9 +71,9 @@ describe('filter()', function () {
         }, function (reason) {
 
             expect(reason).to.be.instanceOf(Error);
-            expect(reason.message).to.equal('child "age" fails because ["value" must contain at least one of [$eq, $gt, $gte, $lt, $lte, $ne, $in, $nin, $not]]');
+            expect(reason.message).to.equal('child "age" fails because ["value" must contain at least one of [$eq, $gt, $gte, $lt, $lte, $ne, $in, $nin, $exists, $type, $mod, $regex, $where, $all, $not]]');
             done();
-        });
+        }).catch(done);
     });
 
     it('should send back all results when there isn\'t a filter', function (done) {
@@ -133,6 +133,80 @@ describe('filter()', function () {
 
                 expect(results[0]).to.equal(testData[1]);
                 expect(results.length).to.equal(1);
+                done();
+            }, done).catch(done);
+        });
+    });
+
+    describe('$exists', function () {
+
+        it('should be able to filter on a key not existing that exists', function (done) {
+
+            Bloc.filter(testData, {
+                age: {
+                    $exists: false
+                }
+            }).then(function (results) {
+
+                expect(results.length).to.equal(0);
+                done();
+            }, done).catch(done);
+        });
+
+        it('should be able to filter on existent key', function (done) {
+
+            Bloc.filter(testData, {
+                age: {
+                    $exists: true
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[0]);
+                expect(results[1]).to.equal(testData[1]);
+                expect(results.length).to.equal(2);
+                done();
+            }, done).catch(done);
+        });
+
+        it('should be able to filter when a key doesn\'t exist', function (done) {
+
+            Bloc.filter(testData, {
+                'first.second.someKey': {
+                    $exists: false
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[0]);
+                expect(results[1]).to.equal(testData[1]);
+                expect(results.length).to.equal(2);
+                done();
+            }, done).catch(done);
+        });
+
+        it('should be able to filter on a sub-property', function (done) {
+
+            Bloc.filter(testData, {
+                'email.address': {
+                    $exists: true
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[0]);
+                expect(results[1]).to.equal(testData[1]);
+                expect(results.length).to.equal(2);
+                done();
+            }, done).catch(done);
+        });
+
+        it('should be able to filter on a sub-property not existing when it does', function (done) {
+
+            Bloc.filter(testData, {
+                'email.address': {
+                    $exists: false
+                }
+            }).then(function (results) {
+
+                expect(results.length).to.equal(0);
                 done();
             }, done).catch(done);
         });
@@ -199,6 +273,79 @@ describe('filter()', function () {
 
                 expect(results[0]).to.equal(testData[1]);
                 expect(results.length).to.equal(1);
+                done();
+            }, done).catch(done);
+        });
+    });
+
+    describe('$type', function () {
+
+        it('should be able to filter on a top level key', function (done) {
+
+            Bloc.filter(testData, {
+                age: {
+                    $type: 'number'
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[0]);
+                expect(results[1]).to.equal(testData[1]);
+                expect(results.length).to.equal(2);
+                done();
+            }, done).catch(done);
+        });
+    });
+
+    describe('$regex', function () {
+
+        it('should be able to filter on a top level key', function (done) {
+
+            Bloc.filter(testData, {
+                name: {
+                    $regex: /^Anthony/
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done).catch(done);
+        });
+    });
+
+    describe('$regex', function () {
+
+        it('should be able to filter on a top level key', function (done) {
+
+            Bloc.filter(testData, {
+                name: {
+                    $where: function(value) {
+
+                        return /^Anthony/.test(value);
+                    }
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done).catch(done);
+        });
+    });
+
+    describe('$mod', function () {
+
+        it('should be able to filter on a top level key', function (done) {
+
+            Bloc.filter(testData, {
+                age: {
+                    $mod: [2, 0]
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[0]);
+                expect(results[1]).to.equal(testData[1]);
+                expect(results.length).to.equal(2);
                 done();
             }, done).catch(done);
         });
@@ -333,6 +480,127 @@ describe('filter()', function () {
         });
     });
 
+    describe('$all', function () {
+
+        it('should be able to filter on multiple keys', function (done) {
+
+            Bloc.filter(testData, {
+                tags: {
+                    $all: [
+                        'billionaire',
+                        'playboy'
+                    ]
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done).catch(done);
+        });
+    });
+
+    describe('$or', function () {
+
+        it('should be able to filter on multiple keys', function (done) {
+
+            Bloc.filter(testData, {
+                $or: [
+                    {
+                        age: {
+                            $eq: 42
+                        }
+                    },
+                    {
+                        name: {
+                            $eq: 'Anthony Stark'
+                        }
+                    }
+                ]
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[0]);
+                expect(results[1]).to.equal(testData[1]);
+                expect(results.length).to.equal(2);
+                done();
+            }, done).catch(done);
+        });
+
+        it('shouldn\'t filter duplicates when matching multiple conditions', function (done) {
+
+            var dupeTestData = [testData[1]].concat(testData);
+            Bloc.filter(dupeTestData, {
+                $or: [
+                    {
+                        age: {
+                            $eq: 34
+                        }
+                    },
+                    {
+                        name: {
+                            $eq: 'Anthony Stark'
+                        }
+                    }
+                ]
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results[1]).to.equal(testData[1]);
+                expect(results.length).to.equal(2);
+                done();
+            }, done).catch(done);
+        });
+    });
+
+    describe('$nor', function () {
+
+        it('should be able to filter on multiple keys', function (done) {
+
+            Bloc.filter(testData, {
+                $nor: [
+                    {
+                        age: {
+                            $eq: 34
+                        }
+                    },
+                    {
+                        name: {
+                            $eq: 'Anthony Stark'
+                        }
+                    }
+                ]
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[0]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done).catch(done);
+        });
+
+        it('shouldn\'t filter duplicates when matching multiple conditions', function (done) {
+
+            Bloc.filter(testData, {
+                $nor: [
+                    {
+                        age: {
+                            $eq: 34
+                        }
+                    },
+                    {
+                        name: {
+                            $eq: 'Anthony Stark'
+                        }
+                    }
+                ]
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[0]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done).catch(done);
+        });
+    });
+
     describe('$not', function () {
 
         describe('$eq', function () {
@@ -349,6 +617,56 @@ describe('filter()', function () {
 
                     expect(results[0]).to.equal(testData[1]);
                     expect(results.length).to.equal(1);
+                    done();
+                }, done).catch(done);
+            });
+        });
+
+        describe('$exists', function () {
+
+            it('should be able to filter on a key not existing that exists', function (done) {
+
+                Bloc.filter(testData, {
+                    age: {
+                        $not: {
+                            $exists: false
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[0]);
+                    expect(results[1]).to.equal(testData[1]);
+                    expect(results.length).to.equal(2);
+                    done();
+                }, done).catch(done);
+            });
+
+            it('should be able to filter on existent key', function (done) {
+
+                Bloc.filter(testData, {
+                    age: {
+                        $not: {
+                            $exists: true
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results.length).to.equal(0);
+                    done();
+                }, done).catch(done);
+            });
+
+            it('should be able to filter when a key doesn\'t exist', function (done) {
+
+                Bloc.filter(testData, {
+                    'first.second.someKey': {
+                        $not: {
+                            $exists: false
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results.length).to.equal(0);
                     done();
                 }, done).catch(done);
             });
@@ -431,6 +749,84 @@ describe('filter()', function () {
             });
         });
 
+        describe('$type', function () {
+
+            it('should be able to filter on a top level key', function (done) {
+
+                Bloc.filter(testData, {
+                    age: {
+                        $not: {
+                            $type: 'number'
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results.length).to.equal(0);
+                    done();
+                }, done).catch(done);
+            });
+        });
+
+        describe('$mod', function () {
+
+            it('should be able to filter on a top level key', function (done) {
+
+                Bloc.filter(testData, {
+                    age: {
+                        $not: {
+                            $mod: [6, 0]
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[1]);
+                    expect(results.length).to.equal(1);
+                    done();
+                }, done).catch(done);
+            });
+        });
+
+        describe('$regex', function () {
+
+            it('should be able to filter on a top level key', function (done) {
+
+                Bloc.filter(testData, {
+                    name: {
+                        $not: {
+                            $regex: /^Anthony/
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[0]);
+                    expect(results.length).to.equal(1);
+                    done();
+                }, done).catch(done);
+            });
+        });
+
+        describe('$where', function () {
+
+            it('should be able to filter on a top level key', function (done) {
+
+                Bloc.filter(testData, {
+                    name: {
+                        $not: {
+                            $where: function(value) {
+
+                                return /^Anthony/.test(value);
+                            }
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[0]);
+                    expect(results.length).to.equal(1);
+                    done();
+                }, done).catch(done);
+            });
+        });
+
         describe('$gte', function () {
 
             it('should be able to filter on a top level key', function (done) {
@@ -478,6 +874,28 @@ describe('filter()', function () {
                     age: {
                         $not: {
                             $lte: 34
+                        }
+                    }
+                }).then(function (results) {
+
+                    expect(results[0]).to.equal(testData[0]);
+                    expect(results.length).to.equal(1);
+                    done();
+                }, done).catch(done);
+            });
+        });
+
+        describe('$all', function () {
+
+            it('should be able to filter on multiple keys', function (done) {
+
+                Bloc.filter(testData, {
+                    tags: {
+                        $not: {
+                            $all: [
+                                'billionaire',
+                                'playboy'
+                            ]
                         }
                     }
                 }).then(function (results) {
