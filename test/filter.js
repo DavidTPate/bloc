@@ -17,6 +17,9 @@ describe('filter()', function () {
         {
             name: 'Nigel Thornberry',
             age: 42,
+            email: {
+                address: 'nigel.thornberry@thewildthornberrys.com'
+            },
             tags: ['explorer', 'father', 'traveler', 'photographer'],
             hobbies: [
                 {
@@ -40,6 +43,9 @@ describe('filter()', function () {
         {
             name: 'Anthony Stark',
             age: 34,
+            email: {
+                address: 'tony@stark.com'
+            },
             tags: ['billionaire', 'playboy', 'philanthropist', 'iron man'],
             hobbies: [
                 {
@@ -78,7 +84,7 @@ describe('filter()', function () {
             expect(results[1]).to.equal(testData[1]);
             expect(results.length).to.equal(2);
             done();
-        }, done);
+        }, done).catch(done);
     });
 
     describe('$eq', function () {
@@ -94,7 +100,23 @@ describe('filter()', function () {
                 expect(results[0]).to.equal(testData[1]);
                 expect(results.length).to.equal(1);
                 done();
-            }, done);
+            }, done).catch(done);
+        });
+
+        it('should be able to filter with an object', function (done) {
+
+            Bloc.filter(testData, {
+                email: {
+                    $eq: {
+                        address: 'tony@stark.com'
+                    }
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done).catch(done);
         });
     });
 
@@ -111,7 +133,23 @@ describe('filter()', function () {
                 expect(results[0]).to.equal(testData[1]);
                 expect(results.length).to.equal(1);
                 done();
-            }, done);
+            }, done).catch(done);
+        });
+
+        it('should be able to filter with an object', function (done) {
+
+            Bloc.filter(testData, {
+                email: {
+                    $in: [{
+                        address: 'tony@stark.com'
+                    }]
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done).catch(done);
         });
     });
 
@@ -128,7 +166,23 @@ describe('filter()', function () {
                 expect(results[0]).to.equal(testData[1]);
                 expect(results.length).to.equal(1);
                 done();
-            }, done);
+            }, done).catch(done);
+        });
+
+        it('should be able to filter with an object', function (done) {
+
+            Bloc.filter(testData, {
+                email: {
+                    $nin: [{
+                        address: 'nigel.thornberry@thewildthornberrys.com'
+                    }]
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done).catch(done);
         });
     });
 
@@ -145,7 +199,23 @@ describe('filter()', function () {
                 expect(results[0]).to.equal(testData[1]);
                 expect(results.length).to.equal(1);
                 done();
-            }, done);
+            }, done).catch(done);
+        });
+
+        it('should be able to filter with an object', function (done) {
+
+            Bloc.filter(testData, {
+                email: {
+                    $ne: {
+                        address: 'nigel.thornberry@thewildthornberrys.com'
+                    }
+                }
+            }).then(function (results) {
+
+                expect(results[0]).to.equal(testData[1]);
+                expect(results.length).to.equal(1);
+                done();
+            }, done).catch(done);
         });
     });
 
@@ -162,7 +232,7 @@ describe('filter()', function () {
                 expect(results[0]).to.equal(testData[0]);
                 expect(results.length).to.equal(1);
                 done();
-            }, done);
+            }, done).catch(done);
         });
     });
 
@@ -180,7 +250,7 @@ describe('filter()', function () {
                 expect(results[1]).to.equal(testData[1]);
                 expect(results.length).to.equal(2);
                 done();
-            }, done);
+            }, done).catch(done);
         });
     });
 
@@ -197,7 +267,7 @@ describe('filter()', function () {
                 expect(results[0]).to.equal(testData[1]);
                 expect(results.length).to.equal(1);
                 done();
-            }, done);
+            }, done).catch(done);
         });
     });
 
@@ -215,7 +285,7 @@ describe('filter()', function () {
                 expect(results[1]).to.equal(testData[1]);
                 expect(results.length).to.equal(2);
                 done();
-            }, done);
+            }, done).catch(done);
         });
     });
 
@@ -241,7 +311,7 @@ describe('filter()', function () {
                 expect(results[0]).to.equal(testData[1]);
                 expect(results.length).to.equal(1);
                 done();
-            }, done);
+            }, done).catch(done);
         });
     });
 
@@ -262,7 +332,7 @@ describe('filter()', function () {
                     expect(results[0]).to.equal(testData[1]);
                     expect(results.length).to.equal(1);
                     done();
-                }, done);
+                }, done).catch(done);
             });
         });
 
@@ -281,7 +351,7 @@ describe('filter()', function () {
                     expect(results[0]).to.equal(testData[1]);
                     expect(results.length).to.equal(1);
                     done();
-                }, done);
+                }, done).catch(done);
             });
         });
 
@@ -300,7 +370,7 @@ describe('filter()', function () {
                     expect(results[0]).to.equal(testData[1]);
                     expect(results.length).to.equal(1);
                     done();
-                }, done);
+                }, done).catch(done);
             });
         });
 
@@ -319,7 +389,7 @@ describe('filter()', function () {
                     expect(results[0]).to.equal(testData[1]);
                     expect(results.length).to.equal(1);
                     done();
-                }, done);
+                }, done).catch(done);
             });
         });
 
@@ -339,7 +409,7 @@ describe('filter()', function () {
                     expect(results[1]).to.equal(testData[1]);
                     expect(results.length).to.equal(2);
                     done();
-                }, done);
+                }, done).catch(done);
             });
         });
 
@@ -358,7 +428,7 @@ describe('filter()', function () {
                     expect(results[0]).to.equal(testData[1]);
                     expect(results.length).to.equal(1);
                     done();
-                }, done);
+                }, done).catch(done);
             });
         });
 
@@ -378,7 +448,7 @@ describe('filter()', function () {
                     expect(results[1]).to.equal(testData[1]);
                     expect(results.length).to.equal(2);
                     done();
-                }, done);
+                }, done).catch(done);
             });
         });
 
@@ -397,7 +467,7 @@ describe('filter()', function () {
                     expect(results[0]).to.equal(testData[0]);
                     expect(results.length).to.equal(1);
                     done();
-                }, done);
+                }, done).catch(done);
             });
         });
     });
