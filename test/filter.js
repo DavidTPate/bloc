@@ -87,6 +87,24 @@ describe('filter()', function () {
         }, done).catch(done);
     });
 
+    it('should send back the stream instead of the results when requested', function (done) {
+
+        Bloc.filter(testData, {}, {stream: true}).then(function (stream) {
+
+            stream
+                .toArray()
+                .subscribe(
+                function (results) {
+
+                    expect(results[0]).to.equal(testData[0]);
+                    expect(results[1]).to.equal(testData[1]);
+                    expect(results.length).to.equal(2);
+                }, done);
+
+            done();
+        }, done).catch(done);
+    });
+
     describe('$eq', function () {
 
         it('should be able to filter on a top level key', function (done) {
