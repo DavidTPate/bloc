@@ -333,7 +333,7 @@ Selects documents if element in the array field matches all the specified condit
 ```
 
 ### $size
-Selects documents if the array field is a specified size.
+Selects documents if the array field is the specified size.
 
 ```js
 {
