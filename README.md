@@ -342,3 +342,39 @@ Selects documents if the array field is the specified size.
   }
 }
 ```
+
+## Aggregation Operators
+Operators to use when setting up pipeline stages.
+
+### $match
+Filters the document stream to allow only matching documents to pass unmodified into the next pipeline stage. 
+$match uses standard queries. For each input document, outputs either one document (a match) or zero documents (no match).
+
+```js
+{
+  $match: { 
+    <query> 
+  } 
+}
+```
+
+### $limit
+Passes the first n documents unmodified to the pipeline where n is the specified limit. For each 
+input document, outputs either one document (for the first n documents) or zero documents (after the first n documents).
+
+```js
+{
+  $limit: <positive integer> 
+}
+```
+
+### $skip
+Skips the first n documents where n is the specified skip number and passes the remaining documents 
+unmodified to the pipeline. For each input document, outputs either zero documents (for the first n documents) 
+or one document (if after the first n documents).
+
+```js
+{
+  $skip: <positive integer> 
+}
+```
