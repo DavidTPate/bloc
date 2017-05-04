@@ -1,4 +1,6 @@
 # Bloc
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/DavidTPate/bloc.svg)](https://greenkeeper.io/)
 Functional Reactive array filtering and aggregation with a MongoDB inspired syntax.
 
 <!-- toc -->

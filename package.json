@@ -39,14 +39,14 @@
     "toc": "node generate-readme-toc.js"
   },
   "dependencies": {
-    "bluebird": "^2.x",
-    "hoek": "^2.x",
-    "joi": "^6.x",
-    "rx": "^2.x"
+    "bluebird": "^3.5.0",
+    "hoek": "^4.1.1",
+    "joi": "^10.4.1",
+    "rx": "^4.1.0"
   },
   "devDependencies": {
-    "code": "^1.x",
-    "lab": "^5.x",
-    "markdown-toc": "^0.x"
+    "code": "^4.0.0",
+    "lab": "^13.0.4",
+    "markdown-toc": "^1.1.0"
   }
 }
