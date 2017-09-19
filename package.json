@@ -47,6 +47,6 @@
   "devDependencies": {
     "code": "^4.0.0",
     "lab": "^13.0.4",
-    "markdown-toc": "^1.1.0"
+    "markdown-toc": "^1.2.0"
   }
 }
