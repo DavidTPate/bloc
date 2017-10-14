@@ -41,7 +41,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "hoek": "^4.1.1",
-    "joi": "^10.4.1",
+    "joi": "^12.0.0",
     "rx": "^4.1.0"
   },
   "devDependencies": {
