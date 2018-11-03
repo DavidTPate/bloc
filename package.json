@@ -45,7 +45,7 @@
     "rx": "^4.1.0"
   },
   "devDependencies": {
-    "code": "^4.0.0",
+    "code": "^5.2.3",
     "lab": "^13.0.4",
     "markdown-toc": "^1.1.0"
   }
